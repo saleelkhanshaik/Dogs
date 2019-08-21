@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/dog_nav_graph"
+            app:startDestination="@id/dogListMain">
+
+    <fragment
+            android:id="@+id/dogListMain"
+            android:name="com.example.saleel.dogs.view.fragments.DogListMain"
+            android:label="DogListMain">
+        <action
+                android:id="@+id/actionFromlistToDetails"
+                app:destination="@id/dogDeatils"/>
+    </fragment>
+    <fragment
+            android:id="@+id/dogDeatils"
+            android:name="com.example.saleel.dogs.view.fragments.DogDeatils"
+            android:label="DogDeatils">
+        <action
+                android:id="@+id/action_dogDeatils_to_dogListMain"
+                app:destination="@id/dogListMain"/>
+        <argument
+                android:name="doguuid"
+                app:argType="integer"
+                android:defaultValue="0"/>
+    </fragment>
+</navigation>
