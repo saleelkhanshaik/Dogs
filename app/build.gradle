@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'androidx.navigation.safeargs'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -37,6 +37,8 @@ def rxJavaVersion = '2.1.1'
 def roomVersion = '2.2.0-alpha02'
 def navVersion = '2.1.0-alpha05'
 def preferenceVerion = '1.0.0'
+def nav_version = "2.1.0-rc01"
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -57,8 +59,6 @@ dependencies {
     implementation "androidx.room:room-ktx:${roomVersion}"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${lifycycleExtentionsVersion}"
-    implementation "androidx.navigation:navigation-fragment-ktx:${navVersion}"
-    implementation "androidx.navigation:navigation-ui-ktx:${navVersion}"
     implementation 'com.google.android.material:material:1.1.0-alpha09'
 
     implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
@@ -72,4 +72,9 @@ dependencies {
     implementation "androidx.preference:preference:${preferenceVerion}"
     implementation "com.github.bumptech.glide:glide:${glideVersion}"
     implementation 'com.android.support:multidex:1.0.3'
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation 'android.arch.lifecycle:viewmodel:1.1.1'
+    implementation "android.arch.lifecycle:viewmodel:${lifycycleExtentionsVersion}"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03'
 }
