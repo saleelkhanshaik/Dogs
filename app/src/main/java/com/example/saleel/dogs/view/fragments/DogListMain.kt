@@ -40,7 +40,13 @@ class DogListMain : Fragment() {
             adapter = dogListAdapter
         }
         observeViewModel()
-
+        refreshLayout.setOnRefreshListener {
+            dogsList.visibility = View.GONE
+            loadingProgressbar.visibility = View.VISIBLE
+            noData.visibility = View.GONE
+            viewModelDog.refreshLis()
+            refreshLayout.isRefreshing = false
+        }
     }
 
     private fun observeViewModel() {
