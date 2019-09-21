@@ -21,6 +21,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -34,7 +37,8 @@ def supportVersion = '28.0.0'
 def retrofitVersion = '2.3.0'
 def glideVersion = '4.9.0'
 def rxJavaVersion = '2.1.1'
-def roomVersion = '2.2.0-alpha02'
+
+def roomVersion = '2.2.0-rc01'
 def navVersion = '2.1.0-alpha05'
 def preferenceVerion = '1.0.0'
 def nav_version = "2.1.0-rc01"
@@ -54,10 +58,10 @@ dependencies {
     implementation "android.arch.lifecycle:common:${lifycycleExtentionsVersion}"
     implementation "com.android.support:design:${supportVersion}"
     implementation "androidx.room:room-runtime:${roomVersion}"
-    implementation "androidx.legacy:legacy-support-v4:${preferenceVerion}"
-    implementation "androidx.room:room-compiler:${roomVersion}"
+
     implementation "androidx.room:room-ktx:${roomVersion}"
-    annotationProcessor "androidx.room:room-compiler:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.legacy:legacy-support-v4:${preferenceVerion}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${lifycycleExtentionsVersion}"
     implementation 'com.google.android.material:material:1.1.0-alpha09'
 

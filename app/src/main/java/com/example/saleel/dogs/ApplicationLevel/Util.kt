@@ -19,6 +19,7 @@ fun ImageView.loadImageView(url:String?,progressDrawable: CircularProgressDrawab
     val option =RequestOptions()
                 .placeholder(progressDrawable)
                 .error(R.mipmap.ic_dog)
+
         Glide.with(context)
             .setDefaultRequestOptions(option)
             .load(url)

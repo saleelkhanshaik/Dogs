@@ -20,6 +20,6 @@ interface DogDao {
     suspend fun getDogDetails(bread_id : Int):DogBread
 
     @Query("DELETE FROM DogBread")
-    suspend fun deteleDogTable()
+    suspend fun deleteDogTable()
 
 }

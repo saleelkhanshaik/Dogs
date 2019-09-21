@@ -27,7 +27,12 @@ class DogsListAdapter(val dogsList:ArrayList<DogBread>):RecyclerView.Adapter<Dog
         holder.view.dogName.text = dogsList[position].dogBread
         holder.view.lifespam.text = dogsList[position].lifeSpam
         holder.view.setOnClickListener {
-            Navigation.findNavController(it).navigate(DogListMainDirections.actionFromlistToDetails())
+            //we are getting the ID based on the click event of the list and we are passing the
+            //uuid to detailsDog fragment
+
+            val action = DogListMainDirections.actionFromlistToDetails(dogsList[position].uuid)
+
+            Navigation.findNavController(it).navigate(action)
         }
         var imageURl = dogsList[position].dogImageURL
         //Glide.with()

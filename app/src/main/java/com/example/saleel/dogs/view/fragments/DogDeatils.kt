@@ -10,6 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
+import com.example.saleel.dogs.ApplicationLevel.getProgressDrawable
+import com.example.saleel.dogs.ApplicationLevel.loadImageView
 
 import com.example.saleel.dogs.R
 import com.example.saleel.dogs.viewmodel.DetailsViewModel
@@ -19,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_dog_list_main.*
 
 class DogDeatils : Fragment() {
     private lateinit var viewModel:DetailsViewModel
+    val args : DogDeatilsArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +34,11 @@ class DogDeatils : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
-        viewModel.fetch()
+       // viewModel.fetch()
+        val uuid = args.doguuid
+        if(uuid != null ){
+            viewModel.fetch(uuid)
+        }
         obserViewModel()
     }
     fun obserViewModel(){
@@ -40,6 +48,7 @@ class DogDeatils : Fragment() {
             dogpurpose.text = dog.breadFor
             dogtemparment.text = dog.temparment
             doglifespam.text = dog.lifeSpam
+            dogImageView.loadImageView(dog.dogImageURL, getProgressDrawable(dogImageView.context))
         }
         })
     }
