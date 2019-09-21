@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
+<!--    Will add the layout element as the top of the xml file
+then will make <date> element wih variable attribute
+name =DOg
+type = will pass the POJO class
+using the @{name.variable}-->
+    <data>
+        <variable
+                name="dog"
+                type="com.example.saleel.dogs.model.DogBread" />
+        <!--
+        if you want do the click events will make listener interface class and will access  here-->
+        <variable
+                name="dogclickevent"
+                type="com.example.saleel.dogs.view.DogClickListener" />
+    </data>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="125dp">
-
+            android:layout_height="125dp"
+            android:onClick="@{dogclickevent::onDogClicked}">
+        <TextView
+                android:id="@+id/dogUUID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@{String.valueOf(dog.uuid)}"/>
         <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:id="@+id/dogImage"
-                android:padding="4dp"/>
+                android:padding="4dp"
+                android:imageUrl="@{dog.dogImageURL}"
+                />
 
         <LinearLayout
                 android:layout_width="0dp"
@@ -25,7 +47,7 @@
                     style="@style/Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DogName"
+                    android:text="@{dog.dogBread}"
                     android:id="@+id/dogName"/>
 
             <TextView
@@ -33,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/lifespam"
                     style="@style/Text"
-                    android:text="Dog life spam"/>
+                    android:text="@{dog.lifeSpam}"/>
         </LinearLayout>
     </LinearLayout>
 </layout>
