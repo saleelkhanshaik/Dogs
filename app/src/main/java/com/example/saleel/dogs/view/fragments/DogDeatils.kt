@@ -24,11 +24,25 @@ import com.example.saleel.dogs.ApplicationLevel.loadImageView
 import com.example.saleel.dogs.R
 import com.example.saleel.dogs.databinding.FragmentDogDeatilsBinding
 import com.example.saleel.dogs.model.DogPallate
+import com.example.saleel.dogs.view.DogClickListener
 import com.example.saleel.dogs.viewmodel.DetailsViewModel
+import kotlinx.android.synthetic.main.fragment_dog_deatils.*
 import kotlinx.android.synthetic.main.fragment_dog_deatils.view.*
+import kotlinx.android.synthetic.main.fragment_dog_deatils.view.button1
 
 
-class DogDeatils : Fragment() {
+class DogDeatils : Fragment(),DogClickListener {
+    var i = 1
+    override fun onDogClicked(view: View) {
+      //  setupBackground(view.dummyURL.text.toString())
+        if(i <= 6){
+            setupBackground1(dummyURL.text.toString(),i)
+            i++;
+        }else{
+            i = 1
+        }
+    }
+
     private lateinit var viewModel:DetailsViewModel
     //for binding
     private lateinit var dataBinding : FragmentDogDeatilsBinding
@@ -51,12 +65,15 @@ class DogDeatils : Fragment() {
         if(uuid != null ){
             viewModel.fetch(uuid)
         }
+
+
         obserViewModel()
     }
     fun obserViewModel(){
         viewModel.dogsList.observe(this, Observer {
             dogdata-> dogdata?.let {
             dataBinding.dogdetails = dogdata
+            dataBinding.dogclickevent = this
             //dogdetails
 //            dogName.text = dog.dogBread
 //            dogpurpose.text = dog.breadFor
@@ -80,7 +97,47 @@ class DogDeatils : Fragment() {
 
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     Palette.from(resource).generate { palette ->
-                        val intColor = palette?.vibrantSwatch?.rgb?: 0
+                        var intColor = 0;
+
+                        intColor = palette?.vibrantSwatch?.rgb?: 0
+                        val myPallete = DogPallate(intColor)
+                        dataBinding.dogpallete = myPallete
+                    }
+                }
+            })
+
+    }
+    private fun setupBackground1(it: String,check:Int) {
+        Glide.with(this).asBitmap()
+            .load(it).into(object :CustomTarget<Bitmap>(){
+                override fun onLoadCleared(placeholder: Drawable?) {
+
+                }
+
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    Palette.from(resource).generate { palette ->
+                        var intColor = 0;
+                        when (check){
+                            1 -> {
+                                intColor = palette?.vibrantSwatch?.rgb?: 0
+                            }
+                            2 -> {
+                                intColor = palette?.darkVibrantSwatch?.rgb?: 0
+                            }
+                            3 ->{
+                                intColor = palette?.lightVibrantSwatch?.rgb?: 0
+                            }
+                            4 ->{
+                                intColor = palette?.mutedSwatch?.rgb?: 0
+                            }
+                            5 ->{
+                                intColor = palette?.darkMutedSwatch?.rgb?: 0
+                            }
+                            6 ->{
+                                intColor = palette?.lightMutedSwatch?.rgb?: 0
+                            }
+                        }
+
                         val myPallete = DogPallate(intColor)
                         dataBinding.dogpallete = myPallete
                     }

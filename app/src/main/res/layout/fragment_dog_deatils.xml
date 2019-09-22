@@ -6,15 +6,20 @@
         <variable
                 name="dogdetails"
                 type="com.example.saleel.dogs.model.DogBread" />
-       <variable
-               name="dogpallete"
-               type="com.example.saleel.dogs.model.DogPallate" />
+
+        <variable
+                name="dogpallete"
+                type="com.example.saleel.dogs.model.DogPallate" />
+
+        <variable
+                name="dogclickevent"
+                type="com.example.saleel.dogs.view.DogClickListener" />
     </data>
 
     <RelativeLayout
-            android:background="@{dogpallete.color}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@{dogpallete.color}">
 
 
         <ImageView
@@ -64,5 +69,22 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="4dp"
                 android:text="@{dogdetails.lifeSpam}" />
+
+        <Button
+                android:onClick="@{dogclickevent::onDogClicked}"
+                android:layout_marginTop="12dp"
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doglifespam"
+                android:layout_centerHorizontal="true"
+                android:text="change the color" />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/dummyURL"
+                android:text="@{dogdetails.dogImageURL}"/>
+
     </RelativeLayout>
 </layout>

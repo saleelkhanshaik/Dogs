@@ -4,6 +4,7 @@ import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.saleel.dogs.ApplicationLevel.NotificationHelper
 import com.example.saleel.dogs.ApplicationLevel.SharedfpreferenceHelper
 import com.example.saleel.dogs.model.DogBread
 import com.example.saleel.dogs.model.DogDatabase
@@ -54,6 +55,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
                    //dogRetrived(t)
                     dogStoreLocally(t)
                     Toast.makeText(getApplication(),"Dogs Retrived from Server",Toast.LENGTH_SHORT).show()
+                    NotificationHelper(getApplication()).createNotification()
                 }
                 override fun onError(e: Throwable) {
                     errorMessage.value = true
