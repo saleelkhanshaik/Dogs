@@ -1,6 +1,8 @@
 package com.example.saleel.dogs.view.fragments
 
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,20 +14,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import androidx.palette.graphics.Palette
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.saleel.dogs.ApplicationLevel.getProgressDrawable
 import com.example.saleel.dogs.ApplicationLevel.loadImageView
 
 import com.example.saleel.dogs.R
 import com.example.saleel.dogs.databinding.FragmentDogDeatilsBinding
+import com.example.saleel.dogs.model.DogPallate
 import com.example.saleel.dogs.viewmodel.DetailsViewModel
-import kotlinx.android.synthetic.main.fragment_dog_deatils.*
-import kotlinx.android.synthetic.main.fragment_dog_list_main.*
+import kotlinx.android.synthetic.main.fragment_dog_deatils.view.*
 
 
 class DogDeatils : Fragment() {
     private lateinit var viewModel:DetailsViewModel
     //for binding
-    private lateinit var dataBinding :FragmentDogDeatilsBinding
+    private lateinit var dataBinding : FragmentDogDeatilsBinding
     val args : DogDeatilsArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +63,29 @@ class DogDeatils : Fragment() {
 //            dogtemparment.text = dog.temparment
 //            doglifespam.text = dog.lifeSpam
 //            dogImageView.loadImageView(dog.dogImageURL, getProgressDrawable(dogImageView.context))
+
+            it.dogImageURL?.let {
+                setupBackground(it)
+            }
         }
         })
+    }
+
+    private fun setupBackground(it: String) {
+        Glide.with(this).asBitmap()
+            .load(it).into(object :CustomTarget<Bitmap>(){
+                override fun onLoadCleared(placeholder: Drawable?) {
+
+                }
+
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    Palette.from(resource).generate { palette ->
+                        val intColor = palette?.vibrantSwatch?.rgb?: 0
+                        val myPallete = DogPallate(intColor)
+                        dataBinding.dogpallete = myPallete
+                    }
+                }
+            })
+
     }
 }

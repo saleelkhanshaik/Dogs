@@ -69,8 +69,7 @@ class DogListMain : Fragment() {
         })
         viewModelDog.errorMessage.observe(this, Observer {
             error -> error?.let {
-            noData.visibility = if(it) View.VISIBLE else View.GONE
-        }
+            noData.visibility = if(it) View.VISIBLE else View.GONE   }
         })
     }
 }

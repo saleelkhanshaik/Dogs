@@ -1,61 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
-    <data
-            ><variable
-            name="dogdetails"
-            type="com.example.saleel.dogs.model.DogBread" /></data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+                name="dogdetails"
+                type="com.example.saleel.dogs.model.DogBread" />
+       <variable
+               name="dogpallete"
+               type="com.example.saleel.dogs.model.DogPallate" />
+    </data>
+
     <RelativeLayout
+            android:background="@{dogpallete.color}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".view.fragments.DogDeatils">
+            android:layout_height="match_parent">
 
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
                 android:id="@+id/dogImageView"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:minHeight="200dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:imageUrl="@{dogdetails.dogImageURL}"/>
+                android:imageUrl="@{dogdetails.dogImageURL}"
+                android:minHeight="200dp" />
+
         <TextView
                 android:id="@+id/dogName"
-                android:layout_margin="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-               android:layout_below="@+id/dogImageView"
-                android:text="@{dogdetails.dogBread}"
+                android:layout_below="@+id/dogImageView"
                 android:layout_centerHorizontal="true"
-                />
+                android:layout_margin="4dp"
+                android:text="@{dogdetails.dogBread}" />
+
         <TextView
                 android:id="@+id/dogpurpose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dogName"
-                android:text="@{dogdetails.breadFor}"
+                android:layout_centerHorizontal="true"
                 android:layout_margin="4dp"
-                android:layout_centerHorizontal="true"/>
+                android:text="@{dogdetails.breadFor}" />
+
         <TextView
                 android:id="@+id/dogtemparment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dogpurpose"
-                android:text="@{dogdetails.temparment}"
+                android:layout_centerHorizontal="true"
                 android:layout_margin="4dp"
-                android:layout_centerHorizontal="true"/>
+                android:text="@{dogdetails.temparment}" />
+
         <TextView
                 android:id="@+id/doglifespam"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dogtemparment"
-                android:text="@{dogdetails.lifeSpam}"
+                android:layout_centerHorizontal="true"
                 android:layout_margin="4dp"
-                android:layout_centerHorizontal="true"/>
+                android:text="@{dogdetails.lifeSpam}" />
     </RelativeLayout>
 </layout>

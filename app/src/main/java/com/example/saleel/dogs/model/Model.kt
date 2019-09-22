@@ -37,3 +37,6 @@ data class DogBread(
     @PrimaryKey(autoGenerate = true)
     var uuid :Int = 0
 }
+data class DogPallate(var color:Int){
+
+}
