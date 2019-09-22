@@ -33,5 +33,6 @@ class SharedfpreferenceHelper {
 
     fun getLatsUpdatedData() =
         prefs?.getLong(PREF_TIME,0)
+    fun getCacheDurationTime() = prefs?.getString("pref_cache_duration","")
 
 }

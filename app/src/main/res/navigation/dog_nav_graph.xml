@@ -11,6 +11,9 @@
         <action
                 android:id="@+id/actionFromlistToDetails"
                 app:destination="@id/dogDeatils"/>
+        <action
+                android:id="@+id/action_dogListMain_to_settings"
+                app:destination="@id/settings" />
     </fragment>
     <fragment
             android:id="@+id/dogDeatils"
@@ -24,4 +27,8 @@
                 app:argType="integer"
                 android:defaultValue="0"/>
     </fragment>
+    <fragment
+            android:id="@+id/settings"
+            android:name="com.example.saleel.dogs.view.fragments.Settings"
+            android:label="Settings" />
 </navigation>

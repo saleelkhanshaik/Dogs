@@ -2,10 +2,8 @@ package com.example.saleel.dogs.view.fragments
 
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
@@ -27,6 +25,8 @@ class DogListMain : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        //to make optionitem visible
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_dog_list_main, container, false)
     }
 
@@ -71,5 +71,22 @@ class DogListMain : Fragment() {
             error -> error?.let {
             noData.visibility = if(it) View.VISIBLE else View.GONE   }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.list_menu,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_preference_settings ->{
+                view?.let {
+                    Navigation.findNavController(it).navigate(DogListMainDirections.actionDogListMainToSettings())
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+
     }
 }

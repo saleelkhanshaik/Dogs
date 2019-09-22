@@ -15,6 +15,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 
 class ListViewModel(application: Application) : BaseViewModel(application) {
     private var sharedpreferenceHelper=SharedfpreferenceHelper(getApplication())
@@ -25,6 +26,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
     val isLoading = MutableLiveData<Boolean> ()
     val errorMessage = MutableLiveData<Boolean>()
     fun refreshLis(){
+        checkDurationTime()
         val updatedTime:Long? =sharedpreferenceHelper.getLatsUpdatedData()
         if(updatedTime != null && updatedTime != 0L && (System.nanoTime() - updatedTime) < timeDelay)
         {
@@ -33,6 +35,16 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
             fetchDatFromServer()
         }
 
+    }
+
+    private fun checkDurationTime() {
+        val cachePreference:String? = sharedpreferenceHelper.getCacheDurationTime()
+        try {
+        val cachePreferenceInt:Int = cachePreference?.toInt()?:5*60
+            timeDelay = cachePreferenceInt.times(1000*1000*1000L)
+        }catch (e:NumberFormatException){
+            e.printStackTrace()
+        }
     }
 
     private fun fetchDatFromDatabase() {
