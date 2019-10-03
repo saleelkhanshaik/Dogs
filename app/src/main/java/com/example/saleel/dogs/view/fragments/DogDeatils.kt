@@ -1,11 +1,15 @@
 package com.example.saleel.dogs.view.fragments
 
 
+import android.app.PendingIntent
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
@@ -23,7 +27,10 @@ import com.example.saleel.dogs.ApplicationLevel.loadImageView
 
 import com.example.saleel.dogs.R
 import com.example.saleel.dogs.databinding.FragmentDogDeatilsBinding
+import com.example.saleel.dogs.databinding.SendsmldialogBinding
+import com.example.saleel.dogs.model.DogBread
 import com.example.saleel.dogs.model.DogPallate
+import com.example.saleel.dogs.model.SmsInfo
 import com.example.saleel.dogs.view.DogClickListener
 import com.example.saleel.dogs.view.MainActivity
 import com.example.saleel.dogs.viewmodel.DetailsViewModel
@@ -34,7 +41,9 @@ import java.util.jar.Manifest
 
 
 class DogDeatils : Fragment(),DogClickListener {
+     var sendSMSstarted :Boolean= false
     var i = 1
+    private var currentDog:DogBread? =  null
     override fun onDogClicked(view: View) {
       //  setupBackground(view.dummyURL.text.toString())
         if(i <= 6){
@@ -74,7 +83,11 @@ class DogDeatils : Fragment(),DogClickListener {
     }
     fun obserViewModel(){
         viewModel.dogsList.observe(this, Observer {
-            dogdata-> dogdata?.let {
+
+            dogdata->
+            currentDog = dogdata
+            dogdata?.let {
+
             dataBinding.dogdetails = dogdata
             dataBinding.dogclickevent = this
             //dogdetails
@@ -150,24 +163,65 @@ class DogDeatils : Fragment(),DogClickListener {
     }
 
 
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.details_menu,menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.sendsms->{
+        when(item.itemId) {
+            R.id.sendsms -> {
+                sendSMSstarted = true
                 (activity as MainActivity).checkSmsPermission()
             }
-            R.id.shareoption->{
+            R.id.shareoption -> {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    type = "text/plain"
 
+                    putExtra(Intent.EXTRA_SUBJECT, "Check out this dog bread")
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        "${currentDog?.dogBread} bred for ${currentDog?.breadFor}"
+                    )
+                    putExtra(Intent.EXTRA_STREAM, "" + currentDog?.dogImageURL)
+                }
+                startActivity(Intent.createChooser(intent, "Share with"))
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     fun onPermissionResult(permissionGranted:Boolean){
+        if(sendSMSstarted && permissionGranted){
+            context?.let {
+                val smsInfo = SmsInfo("","${currentDog?.dogBread} bred for ${currentDog?.breadFor} ","${currentDog?.dogImageURL}")
+                val dialogBinding=DataBindingUtil.
+                    inflate<SendsmldialogBinding>(LayoutInflater.from(it),
+                    R.layout.sendsmldialog,null,
+                        false)
+                AlertDialog.Builder(it).
+                    setView(dialogBinding.root)
+                    .setPositiveButton("Send SMS"){dialogInterface, i ->
+                        if(!dialogBinding.smsDestination.text.isNullOrEmpty()){
+                            smsInfo.to = dialogBinding.smsDestination.text.toString()
+                            sendSMS(smsInfo)
+                        }
+                    }.setNegativeButton("Cancel"){
+                        dialogInterface, i ->{}
+                    }.show()
+                dialogBinding.smsInfo = smsInfo
+            }
 
+
+        }
+    }
+
+    private fun sendSMS(smsInfo: SmsInfo) {
+        val intent = Intent(context,MainActivity::class.java)
+        val pi= PendingIntent.getActivity(context,0,intent,0)
+        val smsManager=SmsManager.getDefault()
+        smsManager.sendTextMessage(smsInfo.to,null,smsInfo.text+"\n"+smsInfo.imageURL,pi,null)
     }
 }

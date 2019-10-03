@@ -37,6 +37,10 @@ data class DogBread(
     @PrimaryKey(autoGenerate = true)
     var uuid :Int = 0
 }
-data class DogPallate(var color:Int){
+data class DogPallate(var color:Int)
+data class SmsInfo(
+    var to :String,
+    var text:String,
+    var imageURL:String
 
-}
+)

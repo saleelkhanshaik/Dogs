@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     .setNegativeButton("Not now"){
                         dialog, which ->  notifyDetailFragment(false)
-                    }
+                    }.show()
             }else{
                 requestPermission()
             }
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     private fun notifyDetailFragment(permissionGranted: Boolean) {
         val activeFragment = navHostMainFrag.childFragmentManager.primaryNavigationFragment
         if(activeFragment is DogDeatils) {
-            (activeFragment as DogDeatils).onPermissionResult(permissionGranted)
+            (activeFragment).onPermissionResult(permissionGranted)
         }
     }
 
