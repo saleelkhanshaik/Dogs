@@ -1,13 +1,13 @@
 package com.example.saleel.dogs.view.fragments
 
 
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,10 +25,12 @@ import com.example.saleel.dogs.R
 import com.example.saleel.dogs.databinding.FragmentDogDeatilsBinding
 import com.example.saleel.dogs.model.DogPallate
 import com.example.saleel.dogs.view.DogClickListener
+import com.example.saleel.dogs.view.MainActivity
 import com.example.saleel.dogs.viewmodel.DetailsViewModel
 import kotlinx.android.synthetic.main.fragment_dog_deatils.*
 import kotlinx.android.synthetic.main.fragment_dog_deatils.view.*
 import kotlinx.android.synthetic.main.fragment_dog_deatils.view.button1
+import java.util.jar.Manifest
 
 
 class DogDeatils : Fragment(),DogClickListener {
@@ -54,6 +56,7 @@ class DogDeatils : Fragment(),DogClickListener {
         // Inflate the layout for this fragment
         dataBinding =DataBindingUtil.inflate(inflater,R.layout.fragment_dog_deatils,container,false)
        // return inflater.inflate(R.layout.fragment_dog_deatils, container, false)
+        setHasOptionsMenu(true)
         return dataBinding.root
     }
 
@@ -143,6 +146,28 @@ class DogDeatils : Fragment(),DogClickListener {
                     }
                 }
             })
+
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.details_menu,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.sendsms->{
+                (activity as MainActivity).checkSmsPermission()
+            }
+            R.id.shareoption->{
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun onPermissionResult(permissionGranted:Boolean){
 
     }
 }
