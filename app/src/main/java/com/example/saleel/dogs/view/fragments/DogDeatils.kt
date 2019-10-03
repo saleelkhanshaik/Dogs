@@ -53,7 +53,7 @@ class DogDeatils : Fragment(),DogClickListener {
             i = 1
         }
     }
-
+    private var sendSmsStarted = false
     private lateinit var viewModel:DetailsViewModel
     //for binding
     private lateinit var dataBinding : FragmentDogDeatilsBinding
@@ -219,9 +219,10 @@ class DogDeatils : Fragment(),DogClickListener {
     }
 
     private fun sendSMS(smsInfo: SmsInfo) {
+      var URL=  (activity as MainActivity).mFirebaseRemoteConfig.getString("new_image")
         val intent = Intent(context,MainActivity::class.java)
         val pi= PendingIntent.getActivity(context,0,intent,0)
         val smsManager=SmsManager.getDefault()
-        smsManager.sendTextMessage(smsInfo.to,null,smsInfo.text+"\n"+smsInfo.imageURL,pi,null)
+        smsManager.sendTextMessage(smsInfo.to,null,smsInfo.text+"\n"+URL,pi,null)
     }
 }

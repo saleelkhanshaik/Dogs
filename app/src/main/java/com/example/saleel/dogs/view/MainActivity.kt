@@ -13,15 +13,25 @@ import androidx.navigation.ui.NavigationUI
 import com.example.saleel.dogs.ApplicationLevel.PERMISSION_SEND_SMS
 import com.example.saleel.dogs.R
 import com.example.saleel.dogs.view.fragments.DogDeatils
+import com.google.firebase.FirebaseApp
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
+     lateinit var mFirebaseRemoteConfig: FirebaseRemoteConfig
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //FirebaseApp.initializeApp(this)
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSetting =FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(3600)
 
-
+            .build()
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSetting)
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.config_defaults)
         navController = Navigation.findNavController(this, R.id.navHostMainFrag)
         NavigationUI.setupActionBarWithNavController(this, navController)
     }
