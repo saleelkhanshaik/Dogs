@@ -10,11 +10,11 @@ class Appstate:Application() {
 
 
       var  options =  FirebaseOptions.Builder()
-            .setApplicationId(FIREBASEID) // Required for Analytics.
-            .setApiKey(FIREBASEKEY) // Required for Auth.
+            .setApplicationId(FIREBASEID)
+            .setApiKey(FIREBASEKEY)
 
             .build();
 
-        FirebaseApp.initializeApp(this, options, "Dogs");
+        FirebaseApp.initializeApp(this, options, "Dogs")
     }
 }

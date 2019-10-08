@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,21 +25,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //FirebaseApp.initializeApp(this)
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-        val configSetting =FirebaseRemoteConfigSettings.Builder()
-            .setMinimumFetchIntervalInSeconds(3600)
-
-            .build()
-        mFirebaseRemoteConfig.setConfigSettingsAsync(configSetting)
-        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.config_defaults)
         navController = Navigation.findNavController(this, R.id.navHostMainFrag)
         NavigationUI.setupActionBarWithNavController(this, navController)
+
     }
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, null)
     }
+fun firebase(){
 
+    mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+    val configSetting =FirebaseRemoteConfigSettings.Builder()
+        .setMinimumFetchIntervalInSeconds(3600)
+
+        .build()
+    mFirebaseRemoteConfig.setConfigSettingsAsync(configSetting)
+    mFirebaseRemoteConfig.setDefaultsAsync(R.xml.config_defaults)
+    fecthdetails()
+}
+
+    override fun onResume() {
+        super.onResume()
+        firebase()
+    }
     fun checkSmsPermission() {
         if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.SEND_SMS) !=
             PackageManager.PERMISSION_GRANTED){
@@ -87,5 +96,20 @@ class MainActivity : AppCompatActivity() {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+    fun fecthdetails():String{
+        var URL:String=""
+        mFirebaseRemoteConfig.fetchAndActivate()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val updated = task.getResult()
+                    mFirebaseRemoteConfig.fetch(0)
+                    Log.d("RemoteCONFIGvalue ","$updated")
+                } else {
 
+                }
+                URL=  mFirebaseRemoteConfig.getString("new_image")
+                Log.d("RemoteCONFIGvalue URL","$URL")
+            }
+        return URL
+    }
 }

@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.telephony.SmsManager
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -201,8 +202,7 @@ class DogDeatils : Fragment(),DogClickListener {
                     inflate<SendsmldialogBinding>(LayoutInflater.from(it),
                     R.layout.sendsmldialog,null,
                         false)
-                AlertDialog.Builder(it).
-                    setView(dialogBinding.root)
+                AlertDialog.Builder(it).setView(dialogBinding.root)
                     .setPositiveButton("Send SMS"){dialogInterface, i ->
                         if(!dialogBinding.smsDestination.text.isNullOrEmpty()){
                             smsInfo.to = dialogBinding.smsDestination.text.toString()
@@ -219,10 +219,12 @@ class DogDeatils : Fragment(),DogClickListener {
     }
 
     private fun sendSMS(smsInfo: SmsInfo) {
-      var URL=  (activity as MainActivity).mFirebaseRemoteConfig.getString("new_image")
+      var URL=  (activity as MainActivity).fecthdetails()
         val intent = Intent(context,MainActivity::class.java)
         val pi= PendingIntent.getActivity(context,0,intent,0)
         val smsManager=SmsManager.getDefault()
         smsManager.sendTextMessage(smsInfo.to,null,smsInfo.text+"\n"+URL,pi,null)
     }
+
+
 }
